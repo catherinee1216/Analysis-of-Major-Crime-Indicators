@@ -1,0 +1,49 @@
+---
+title: "Major Crime Indicators in Toronto"
+author: "Catherine Punnoose"
+date: "January 16th, 2024"
+format: pdf
+abstract: "This is my abstract."
+bibliography: bibliography.bib
+---
+
+
+```{r}
+library(AER)
+library(future)
+library(gitcreds)
+library(knitr)
+library(lintr)
+library(renv)
+library(reprex)
+library(styler)
+library(tictoc)
+library(tidyverse)
+library(tinytex)
+library(usethis)
+
+install.packages("opendatatoronto")
+install.packages("janitor")
+install.packages("tidyverse")
+
+library(opendatatoronto)
+library(janitor)
+
+```
+
+
+
+```{r}
+#| echo: false
+
+#Obtaining the required packages and data sets needed to run analysis
+
+major_crime_indicators_packages <- search_packages("Major Crime Indicators")
+major_crime_indicators_resources <- major_crime_indicators_packages  %>% list_package_resources()
+
+raw_data_collect <- major_crime_indicators_resources[4,] %>% get_resource()
+
+#Cleaning up the data
+data_analysis <- clean_names(raw_data_collect)
+
+```
