@@ -1,0 +1,124 @@
+---
+title: "Major Crime Indicators in Toronto"
+author: "Catherine Punnoose"
+date: today
+format: pdf
+abstract: "Toronto is home to millions of people. Ensuring that residents in Toronto are safe is a responsibility of Toronto Police. This responsibility includes receiving reports on crimes committed within the city. By studying major crime indicators in the city of Toronto, the report provides an analysis of the types of major crime indicators reported, its premise, and location of report."
+bibliography: bibliography.bib
+---
+
+
+```{r}
+#| echo: false
+#| warning: false
+#| message: false
+
+
+library(tidyverse)
+library(tinytex)
+
+#install.packages("opendatatoronto")
+#install.packages("janitor")
+#install.packages("tidyverse")
+
+library(opendatatoronto)
+library(janitor)
+
+#Obtaining the required packages and data sets needed to run analysis
+
+major_crime_indicators_packages <- search_packages("Major Crime Indicators")
+major_crime_indicators_resources <- major_crime_indicators_packages  %>% list_package_resources()
+
+raw_data_collect <- major_crime_indicators_resources[4,] %>% get_resource()
+
+#Cleaning up the data
+data_analysis <- clean_names(raw_data_collect)
+
+```
+
+# Introduction
+
+  As a significantly popular city, Toronto is prone to reports of all kinds of crimes. Analyzing major crime indicators provide a deeper understanding of crimes that are more prominent in the city and which locations within the city may be at risk to public safety. This report analyzes the major crime indicators from data collected in [Open Data Toronto](https://open.toronto.ca/). Major crime indicators are analyzed in six categories: Assault, Break and Enter, Auto Theft, Robbery, and Theft Over. Sexual Assault crimes are not included in this report. It will study which locations, as well as the premise on why the crime was committed. The data provided is at the offense/victim level and does not include crimes that were not reported to the Toronto Police Service. 
+
+# Discussion 
+
+  The data suggests that Assault is the most prominent major crime indicator in the city. As seen in Figure 1, nearly 200 000 cases of Assault have been reported to Toronto Police Services. 
+  
+  Types of Assault cases include Assault, Assault with Weapon, Assault Bodily Harm, Aggravated Assault and more. When looking at what premise crimes are most commonly committed on, the data shows that most crimes are committed Outside. The next most common premise are Apartments. Both data can be seen in Figure 2. 
+
+```{r}
+#| label: fig-mci
+#| fig-cap: Major Crime Indicators Reported
+#| layout-ncol: 1
+#| echo: false
+#| warning: false
+#| message: false
+
+library(tidyverse)
+library(opendatatoronto)
+
+
+data_analysis |>
+  ggplot(aes(x = mci_category)) + geom_bar(stat = "count")+ theme_minimal() + 
+  labs(x = "Major Crime Indicator", y = "Number of reports") 
+
+
+```
+
+
+
+
+```{r}
+#| label: fig-premise
+#| fig-cap: Premise of Crimes
+#| layout-ncol: 1
+#| echo: false
+#| warning: false
+#| message: false
+
+library(tidyverse)
+library(opendatatoronto)
+
+
+data_analysis |>
+  ggplot(aes(x = premises_type)) + geom_bar(stat = "count")+ theme_classic() + 
+  labs(x = "Premise", y = "Number of reports") 
+
+
+```
+
+When analyzing the frequency of reports submitted to Toronto Public Service, Monday is the most common day in the week where reports were submitted. The graph below shows the number of reports submitted per day of the week. 
+
+```{r}
+#| label: fig-location
+#| fig-cap: Location of Crime
+#| layout-ncol: 1
+#| echo: false
+#| warning: false
+#| message: false
+
+library(tidyverse)
+library(opendatatoronto)
+
+data_analysis |>
+  ggplot(aes(x = report_dow)) + geom_bar(stat = "count")+ theme_minimal() + 
+  labs(x = "Location Type", y = "Number of reports") 
+
+```
+
+# Conclusion 
+
+  Overall, the data provides a thorough analysis of major crime indicators reported in Toronto. Studying the type of crime, its premise and location of the report can help Toronto Police determine areas with higher crime rates in the city. Understanding what types of crimes are most frequent can help suggest safety measures that can be implemented in the city. 
+
+\newpage
+# References 
+
+@citeR
+
+@janitor
+
+@OpenDataTO
+
+@tidyVerse
+
+@tinyTex
